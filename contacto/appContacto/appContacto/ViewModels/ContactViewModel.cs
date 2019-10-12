@@ -1,7 +1,7 @@
 ﻿namespace appContacto.ViewModels
 {
-    using appContacto.Models;
-    using appContacto.Services;
+    using Models;
+    using Services;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@
     public class ContactViewModel:BaseViewModel
     {
         #region Attributes
-        ApiService apiService;
+        private ApiService apiService;
         private ObservableCollection<Contact> contacts;
         #endregion
 
@@ -61,9 +61,25 @@
             MainViewModel mainViewModel = MainViewModel.GetInstance();
             mainViewModel.ContactList = (List<Contact>)response.Result;
 
-            //this.Contacts = new ObservableCollection<Contact>();
+            this.Contacts = new ObservableCollection<Contact>(this.ToContactView());
 
-        } 
+        }
+
+        private IEnumerable<Contact> ToContactView()
+        {
+            ObservableCollection<Contact> collection = new ObservableCollection<Contact>();
+            MainViewModel main = MainViewModel.GetInstance();
+            foreach (var lista in main.ContactList)
+            {
+                Contact contacto = new Contact();
+                contacto.ContactID = lista.ContactID;
+                contacto.Name = lista.Name;
+                contacto.Type = lista.Type;
+                contacto.ContactValue=lista.ContactValue;
+                collection.Add(contacto);
+            }
+            return collection;
+        }
         #endregion
 
     }
