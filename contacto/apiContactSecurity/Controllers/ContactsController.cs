@@ -11,7 +11,7 @@ using System.Web.Http.Description;
 using apiContactSecurity.Models;
 
 namespace apiContactSecurity.Controllers
-{
+{ 
     public class ContactsController : ApiController
     {
         private DataContext db = new DataContext();
